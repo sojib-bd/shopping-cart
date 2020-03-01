@@ -1,41 +1,80 @@
-//add Button event handler
 
-const addBtn = document.getElementById('addBtn');
-const mobileCount = document.getElementById('mobileCount');
+function updateMobileCount(id, num) {
+    let getId = document.getElementById(id);
+    let getValue = parseFloat(getId.value);
+    let total = getValue + num;
+    getId.value = total
+    return total
 
-let count = 1;
-addBtn.addEventListener('click', function () {
+}
 
-    mobileCount.value++;
-    count++;
+function updateMobilePrice(id, num) {
+    let getId = document.getElementById(id);
+    let getText = getId.innerText;
+    let getNumber = parseFloat(getText);
 
-    updatePriceTag('mobilePrice', 1219, count)
+    let totalPrice = getNumber + num;
 
-    //const subTotal = document.getElementById('subTotal');
-    //const subTotalNumber = parseFloat(subTotal.innerText);
-    updatePriceTag('subTotal', 1219, count)
+    getId.innerText = totalPrice;
+    return totalPrice;
+}
 
+// subtotal update
+function updateSubtotal(id1, id2, id3) {
+    let firstOne = document.getElementById(id1);
+    let firstOneValue = firstOne.innerText;
+    let firstValue = parseFloat(firstOneValue)
 
-})
+    let secondOne = document.getElementById(id2);
+    let secondOneValue = secondOne.innerText;
+    let secondValue = parseFloat(secondOneValue);
 
+    let total = firstValue + secondValue;
 
+    let destination = document.getElementById(id3);
+    destination.innerText = total;
+    return total;
 
+}
 
-function updatePriceTag(id, price, count) {
-    const mobilePrice = document.getElementById(id);
-    const totalMobilePrice = price * count;//1219 * 2 = 2438;
-    mobilePrice.innerText = totalMobilePrice;//2438
+//update total 
+
+function updateTotal(id1, id2, id3) {
+    let getIdOne = document.getElementById(id1);
+    let getIdSecond = document.getElementById(id2);
+    let getIdThird = document.getElementById(id3);
+
+    let total = parseFloat(getIdOne.innerText) + parseFloat(getIdSecond.innerText);
+    getIdThird.innerText = total;
+    return total
 }
 
 
-const reduceBtn = document.getElementById('reduceBtn');
-reduceBtn.addEventListener('click', function () {
-    if (mobileCount.value > 0) {
-        mobileCount.value--;
-        count--
-        updatePriceTag('mobilePrice', 1219, count)
-        updatePriceTag('subTotal', 1278, count)
+// Mobile phone Plus Btn
+let addBtn = document.getElementById('addBtn');
 
+addBtn.addEventListener('click', function () {
+    updateMobileCount("mobileCount", 1)
+    updateMobilePrice('mobilePrice', 1219)
+
+    updateSubtotal('mobilePrice', 'coverPrice', 'subTotal')
+    updateTotal('subTotal', 'tax', 'total')
+
+})
+
+
+// Mobile phone Minus Btn
+
+let reduceBtn = document.getElementById('reduceBtn');
+
+reduceBtn.addEventListener('click', function () {
+    const mobileCount = document.getElementById('mobileCount');
+
+    if (mobileCount.value > 0) {
+        updateMobileCount('mobileCount', -1)
+        updateMobilePrice('mobilePrice', -1219)
+        updateSubtotal('mobilePrice', 'coverPrice', 'subTotal')
+        updateTotal('subTotal', 'tax', 'total')
 
     }
     else {
@@ -43,29 +82,33 @@ reduceBtn.addEventListener('click', function () {
     }
 })
 
-//cover item 
-const coverAddBtn = document.getElementById('coverAddBtn');
-const coverReduce = document.getElementById('coverReduce');
-const coverCount = document.getElementById('coverCount');
+// Cover Plus Btn 
 
-
-
+let coverAddBtn = document.getElementById('coverAddBtn');
 
 coverAddBtn.addEventListener('click', function () {
-    coverCount.value++;
-    count++;
-    updatePriceTag("coverPrice", 59, count)
+    updateMobileCount("coverCount", 1)
+    updateMobilePrice('coverPrice', 59)
+    updateSubtotal('mobilePrice', 'coverPrice', 'subTotal')
+    updateTotal('subTotal', 'tax', 'total')
+
 })
 
-coverReduce.addEventListener('click', function () {
-    if (coverCount.value > 0) {
-        coverCount.value--;
-        count--
-        updatePriceTag('coverPrice', 59, count)
+// Cover Minus Btn 
 
+let coverReduce = document.getElementById('coverReduce');
+coverReduce.addEventListener('click', function () {
+    let coverCount = document.getElementById('coverCount');
+    if (coverCount.value > 0) {
+        updateMobileCount('coverCount', -1)
+        updateMobilePrice('coverPrice', -59)
+        updateSubtotal('mobilePrice', 'coverPrice', 'subTotal')
+        updateTotal('subTotal', 'tax', 'total')
 
     }
     else {
-        mobileCount.value == 0
+        coverCount.value == 0
     }
 })
+
+
